@@ -1,1 +1,1 @@
-# GLAS-Scrapy-with-devops
+# ScrapyGLAS
