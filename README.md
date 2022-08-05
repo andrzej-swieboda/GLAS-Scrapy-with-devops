@@ -1,6 +1,6 @@
 # ScrapyGLAS
 
-Welcome to the GLAS-Scrapy-with-devops wiki!
+Welcome to the GLAS-Scrapy-with-devops project!
 
 Goal of this project is to create production and development workflows for webscraping developers, who want to write, test and deploy spiders in remote environments effortlessly and in relatively high pace.
  
