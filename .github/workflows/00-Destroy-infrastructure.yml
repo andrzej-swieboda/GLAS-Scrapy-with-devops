@@ -30,7 +30,7 @@ jobs:
 
         - name: Delete plan file
           if: steps.destroy.outcome == 'success'
-          run: aws s3 rm s3://glas-backend-bucket/production/terraform.tfstate production/terraform.tfstate
+          run: aws s3 rm s3://glas-backend-bucket/production/terraform.tfstate
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
