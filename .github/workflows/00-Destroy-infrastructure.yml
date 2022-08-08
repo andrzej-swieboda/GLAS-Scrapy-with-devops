@@ -34,6 +34,7 @@ jobs:
       working-directory: ./TerraformASGL
       run: |
         terraform init -reconfigure -upgrade
+        terraform fmt
         terraform validate
         terraform plan
         terraform apply -auto-approve
@@ -52,7 +53,7 @@ jobs:
 
     - name: Destroy resources jobs
       id: destroy
-      run: terraform destroy -auto-approve
+      run: terraform destroy -auto-approve -var-file=terraform.tfvars
 
     - name: Delete plan file
       if: steps.destroy.outcome == 'success'
