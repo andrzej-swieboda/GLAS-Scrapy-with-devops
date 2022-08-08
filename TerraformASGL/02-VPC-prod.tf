@@ -1,36 +1,25 @@
 #This terraform script provisions a VPC for production environment
 #complete with a NAT and Internet Gateways
 
-resource "aws_vpc" "vpc-prod" {
-  cidr_block           = "10.0.0.0/16"
+resource "aws_vpc" "Main" {
+  cidr_block           = var.main_vpc_cidr
   enable_dns_hostnames = true
-  tags = {
-    Name = "vpc-prod"
-  }
-}
-resource "aws_internet_gateway" "igw-prod" {
-  vpc_id = aws_vpc.vpc-prod.id
-
-  tags = {
-    Name = "igw-prod"
-  }
 }
 
-resource "aws_eip" "nat-ip-prod" {
-  vpc = true
+resource "aws_internet_gateway" "igw-main" {
+  vpc_id = aws_vpc.Main.id
 
   tags = {
-    Name = "nat-ip-prod"
+    Name = "igw-Main"
   }
 }
 
-resource "aws_nat_gateway" "nat-prod" {
- allocation_id = aws_eip.nat-ip-prod.id
-  subnet_id     = aws_subnet.public-subnet-prod-a.id
+ resource "aws_eip" "nateIP" {
+   vpc   = true
+ }
 
-  tags = {
-    Name = "nat"
-  }
-
-  depends_on = [aws_internet_gateway.igw-prod]
-}
+ #Creating the NAT Gateway using subnet_id and allocation_id
+ resource "aws_nat_gateway" "NATgw" {
+   allocation_id = aws_eip.nateIP.id
+   subnet_id = aws_subnet.publicsubnets.id
+ }
