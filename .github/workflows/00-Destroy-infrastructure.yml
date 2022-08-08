@@ -1,11 +1,6 @@
 name: Destroy infrastructure
 on:
   workflow_dispatch:
-    inputs:
-      env:
-        description: 'Environment'
-        required: true
-        default: 'dev'
 
 jobs:
   destroy:
@@ -13,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: AWS Plan Copy
-          run: aws s3 cp s3://glas-backend-bucket/production/terraform.tfstate production/terraform.tfstate
+          run: aws s3 cp s3://glas-backend-bucket/production/terraform.tfstate terraform.tfstate
           id: copy
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

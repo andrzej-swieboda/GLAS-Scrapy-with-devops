@@ -65,7 +65,7 @@ jobs:
 
     - name: AWS Plan Copy
       if: github.event_name == 'push' && steps.apply.outcome == 'success'
-      run: aws s3 cp s3://glas-backend-bucket/production/terraform.tfstate production/terraform.tfstate
+      run: aws s3 cp terraform.tfstate s3://glas-backend-bucket/production/terraform.tfstate
       id: copy
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
