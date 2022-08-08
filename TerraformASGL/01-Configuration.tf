@@ -1,4 +1,11 @@
 terraform {
+
+  backend "s3" {
+    bucket = "glas-backend-bucket"
+    key    = "production/terraform.tfstate"
+    region = "us-east-1"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
