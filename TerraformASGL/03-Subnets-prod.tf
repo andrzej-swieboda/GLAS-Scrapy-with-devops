@@ -1,5 +1,5 @@
  # Creating Public Subnets
-resource "aws_subnet" "publicsubnet" {
+resource "aws_subnet" "publicsubnets" {
   vpc_id = aws_vpc.Main.id
   cidr_block = "$var.public_subnets"
 }
