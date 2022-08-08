@@ -24,13 +24,13 @@ resource "aws_eip" "nat-ip-prod" {
   }
 }
 
-#resource "aws_nat_gateway" "nat-prod" {
-# allocation_id = aws_eip.nat-ip-prod.id
-#  subnet_id     = aws_subnet.public-subnet-prod-a.id
+resource "aws_nat_gateway" "nat-prod" {
+ allocation_id = aws_eip.nat-ip-prod.id
+  subnet_id     = aws_subnet.public-subnet-prod-a.id
 
-#  tags = {
-#    Name = "nat"
-#  }
-#
-#  depends_on = [aws_internet_gateway.igw-prod]
-#}
+  tags = {
+    Name = "nat"
+  }
+
+  depends_on = [aws_internet_gateway.igw-prod]
+}
