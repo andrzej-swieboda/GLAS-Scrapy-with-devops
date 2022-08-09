@@ -30,14 +30,12 @@ jobs:
         export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         export AWS_REGION="us-east-1"
 
-    - name: Terraform apply
+    - name: Terraform initialization
       working-directory: ./TerraformASGL
       run: |
         terraform init -reconfigure -upgrade
         terraform fmt
         terraform validate
-        terraform plan
-        terraform apply -auto-approve
 
     - name: Show Destroy plan
       run: terraform plan -destroy
