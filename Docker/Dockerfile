@@ -25,7 +25,7 @@ COPY Spiders ./projects
 
 #Initiate project and start crawlers
 
-RUN chmod +x ./projects/cfg/Project-setup.sh
-RUN ./projects/cfg/Project-setup.sh
+RUN chmod +x ./projects/Project-setup.sh
+RUN ./projects/Project-setup.sh
 
 #Data will be stored in json file inside the project dir.
