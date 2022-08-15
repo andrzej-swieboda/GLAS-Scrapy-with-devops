@@ -1,4 +1,4 @@
-name: Installing and initiating Terraform
+name: 01-Installing and initiating Terraform
 
 on:
   workflow_dispatch:

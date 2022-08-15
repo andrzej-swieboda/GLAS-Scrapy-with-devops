@@ -1,4 +1,4 @@
-name: Building and pushing dev image
+name: 02-Building and pushing dev image
 
 on:
   workflow_dispatch:
