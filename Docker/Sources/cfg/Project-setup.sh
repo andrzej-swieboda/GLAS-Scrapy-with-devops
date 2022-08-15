@@ -9,7 +9,7 @@ SPIDER_NAME=motywatorka
 SPIDER_FILE=motywatorka_spider.py
 
 scrapy startproject $PROJECT_NAME ../projects
-cp ./projects/Spiders/$SPIDER_FILE ./projects/$PROJECT_NAME/spiders
+cp ./projects/$SPIDER_FILE ./projects/$PROJECT_NAME/spiders
 
 cd ./projects/$PROJECT_NAME/spiders/
 
