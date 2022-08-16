@@ -1,4 +1,4 @@
-name: 02-Building and pushing dev image
+name: CI Testing and building test image
 
 on:
   workflow_dispatch:
