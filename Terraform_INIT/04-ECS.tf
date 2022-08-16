@@ -1,5 +1,5 @@
-resource "aws_ecs_cluster" "foo" {
-  name = "white-hart"
+resource "aws_ecs_cluster" "ecs-dev" {
+  name = "Dev-ecs-cluster"
 
   setting {
     name  = "containerInsights"
@@ -7,14 +7,8 @@ resource "aws_ecs_cluster" "foo" {
   }
 }
 
-resource "aws_ecs_service" "mongo" {
-  name            = "mongodb"
-  cluster         = aws_ecs_cluster.foo.id
-  desired_count   = 3
-
-  ordered_placement_strategy {
-    type  = "binpack"
-    field = "cpu"
-  }
-
+resource "aws_ecs_service" "scrapy-dev" {
+    name = "scrapy-test-service"
+    cluster = aws_ecs_cluster.ecs-dev.id
+    desired_count = 1
 }
