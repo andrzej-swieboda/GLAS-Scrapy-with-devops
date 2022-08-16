@@ -31,7 +31,7 @@ jobs:
       working-directory: ./Docker
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
-        ECR_REPOSITORY: dev_image_repository
+        ECR_REPOSITORY: scrapy_dev_ecr
         IMAGE_TAG: DEV_SCRAPY_IMAGE
 
       run: |
