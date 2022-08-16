@@ -8,7 +8,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
     name                      = "asg"
-    vpc_zone_identifier       = [aws_subnet.pub_subnet.id]
+    vpc_zone_identifier       = [aws_subnet.publicsubnet.id]
     launch_configuration      = aws_launch_configuration.ecs_launch_config.name
 
     desired_capacity          = 2
