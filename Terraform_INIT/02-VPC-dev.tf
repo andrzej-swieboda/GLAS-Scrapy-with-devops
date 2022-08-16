@@ -19,13 +19,13 @@ resource "aws_internet_gateway" "igw-dev" {
 }
 
 #Create public subnets
-resource "aws_subnet" "publicsubnet" {
+resource "aws_subnet" "publicsubnets" {
   vpc_id = aws_vpc.vpc-dev.id
   cidr_block = "${var.public_subnets}"
 }
 
 #Create private subnets
-resource "aws_subnet" "privatesubnet" {
+resource "aws_subnet" "privatesubnets" {
   vpc_id = aws_vpc.vpc-dev.id
   cidr_block = "${var.private_subnets}"
 }
