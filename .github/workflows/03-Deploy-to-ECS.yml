@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS
+name: 03 Deploy to Amazon ECS
 
 on:
   workflow_dispatch:
@@ -36,6 +36,7 @@ jobs:
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
+        working-directory: ./Docker
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
