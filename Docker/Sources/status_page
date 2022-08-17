@@ -1,0 +1,13 @@
+server {
+       listen 81;
+       listen [::]:81;
+
+       server_name example.ubuntu.com;
+
+       root /var/www/status_page;
+       index index.html;
+
+       location / {
+               try_files $uri $uri/ =404;
+       }
+}
