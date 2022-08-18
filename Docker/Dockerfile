@@ -6,6 +6,7 @@ RUN apt-get update && \
     apt-get install --assume-yes --no-install-recommends \
     curl \
     nginx \
+    unzip \
     apt-utils \
     python3 \
     python3-dev \
