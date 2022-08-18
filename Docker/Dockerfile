@@ -34,7 +34,7 @@ RUN chmod +x ./projects/cfg/Project-setup.sh
 RUN chmod +x ./projects/cfg/Output-setup.sh
 RUN chmod +x ./projects/cfg/aws-output.sh
 RUN ./projects/cfg/Project-setup.sh
-RUN ./projects/cfg/aws-output.sh
+#RUN ./projects/cfg/aws-output.sh
 
 
 #Data will be stored in json file inside the project dir.
