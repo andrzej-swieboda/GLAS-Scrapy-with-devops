@@ -38,8 +38,8 @@ jobs:
 
     - name: Make bucket for terraform state file
       run: |
-        aws s3api create-bucket --bucket glas-scrapybackend-dev --region us-east-1
-        aws s3api put-object --bucket glas-scrapybackend-dev --key production
+        aws s3api create-bucket --bucket ${{ secrets.MAIN_BUCKET }} --region us-east-1
+        aws s3api put-object --bucket ${{ secrets.MAIN_BUCKET }} --key production
       
 
       env:
@@ -49,7 +49,7 @@ jobs:
 
     - name: AWS Plan Copy
       id: copyfrom
-      run: aws s3 cp s3://glas-scrapybackend-dev/production/terraform.tfstate production/terraform.tfstate
+      run: aws s3 cp s3://${{ secrets.MAIN_BUCKET }}/production/terraform.tfstate production/terraform.tfstate
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -66,7 +66,7 @@ jobs:
 
     - name: AWS Plan Copy
       if: github.event_name == 'push' && steps.apply.outcome == 'success'
-      run: aws s3 cp terraform.tfstate s3://glas-scrapybackend-dev/production/terraform.tfstate
+      run: aws s3 cp terraform.tfstate s3://${{ secrets.MAIN_BUCKET }}/production/terraform.tfstate
       id: copy
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

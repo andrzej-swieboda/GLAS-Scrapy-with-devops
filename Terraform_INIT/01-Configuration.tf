@@ -1,7 +1,7 @@
 terraform {
 
   backend "s3" {
-    bucket = "glas-scrapybackend-dev"
+    bucket = "scrapy-dev-backend"
     key    = "production/terraform.tfstate"
     region = "us-east-1"
   }
