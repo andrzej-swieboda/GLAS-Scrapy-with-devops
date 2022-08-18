@@ -4,6 +4,7 @@ FROM ubuntu:latest
 
 RUN apt-get update && \ 
     apt-get install --assume-yes --no-install-recommends \
+    curl \
     nginx \
     apt-utils \
     python3 \
@@ -14,6 +15,12 @@ RUN apt-get update && \
     zlib1g-dev \
     libffi-dev \
     libssl-dev
+
+#install awscli
+
+RUN "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
 
 #install main package
 
@@ -27,7 +34,11 @@ COPY Sources ./projects
 #Initiate project and start crawlers
 
 RUN chmod +x ./projects/cfg/Project-setup.sh
+RUN chmod +x ./projects/cfg/Output-setup.sh
+RUN chmod +x ./projects/cfg/aws-output.sh
 RUN ./projects/cfg/Project-setup.sh
+RUN ./projects/cfg/aws-output.sh
+
 
 #Data will be stored in json file inside the project dir.
 
@@ -35,9 +46,4 @@ RUN mkdir /var/www/status_page
 RUN cp ./projects/index.html /var/www/status_page
 RUN cp ./projects/status_page /etc/nginx/sites-enabled
 
-EXPOSE 81
-EXPOSE 8181
-EXPOSE 80
-
-RUN service nginx reload
-CMD tail -f /dev/null
+ENTRYPOINT [ "service nginx restart" ]
