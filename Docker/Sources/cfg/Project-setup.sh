@@ -34,6 +34,6 @@ aws configure set aws_access_key_id AKIA4DZDFY3YTVYMCHUZ
         aws configure set aws_secret_access_key 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
         aws configure set default.region us-east-1
 
-aws s3 cp /outputs/ s3://scrapy-dev-backends
+aws s3 cp /outputs/ s3://scrapy-dev-backends --recursive
 
 
