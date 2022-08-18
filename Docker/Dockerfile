@@ -27,8 +27,16 @@ COPY Sources ./projects
 #Initiate project and start crawlers
 
 RUN chmod +x ./projects/cfg/Project-setup.sh
-RUN chmod +x ./projects/cfg/Output-setup.sh
 RUN ./projects/cfg/Project-setup.sh
-RUN ./projects/cfg/Output-setup.sh
 
 #Data will be stored in json file inside the project dir.
+
+RUN mkdir /var/www/status_page
+RUN cp ./projects/index.html /var/www/status_page
+RUN cp ./projects/status_page /etc/nginx/sites-enabled
+
+EXPOSE 81
+EXPOSE 8181
+EXPOSE 80
+
+ENTRYPOINT [ "service nginx restart" ]
