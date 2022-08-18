@@ -39,4 +39,5 @@ EXPOSE 81
 EXPOSE 8181
 EXPOSE 80
 
-ENTRYPOINT [ "service nginx restart" ]
+RUN service nginx reload
+CMD tail -f /dev/null
