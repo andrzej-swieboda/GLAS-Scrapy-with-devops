@@ -18,10 +18,6 @@ RUN apt-get update && \
 
 #install awscli
 
-RUN "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
-RUN ./aws/install
-
 #install main package
 
 RUN pip install scrapy
