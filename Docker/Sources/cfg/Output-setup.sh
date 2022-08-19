@@ -1,7 +1,7 @@
 #! /bin/bash
 
-mkdir /var/www/status_page
-cp ./projects/index.html /var/www/status_page
-cp ./projects/status_page /etc/nginx/sites-enabled
+aws configure set aws_access_key_id $AWS_AKID
+    aws configure set aws_secret_access_$AWS_SAK
+        aws configure set default.region us-east-1
 
-service nginx restart
+aws s3 cp /outputs/ s3://$BUCKET_NAME --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --recursive
