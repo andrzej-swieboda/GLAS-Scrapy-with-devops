@@ -32,15 +32,7 @@ COPY Sources ./projects
 
 RUN chmod +x ./projects/cfg/Project-setup.sh
 RUN chmod +x ./projects/cfg/Output-setup.sh
-RUN chmod +x ./projects/cfg/aws-output.sh
 RUN ./projects/cfg/Project-setup.sh
-#RUN ./projects/cfg/aws-output.sh
 
 
 #Data will be stored in json file inside the project dir.
-
-RUN mkdir /var/www/status_page
-RUN cp ./projects/index.html /var/www/status_page
-RUN cp ./projects/status_page /etc/nginx/sites-enabled
-
-ENTRYPOINT [ "service nginx restart" ]
