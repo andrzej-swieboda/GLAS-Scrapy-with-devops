@@ -5,6 +5,7 @@ resource "aws_ecs_cluster" "main" {
 
 
 resource "aws_ecs_task_definition" "deploy" {
+  family                   = "test"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
