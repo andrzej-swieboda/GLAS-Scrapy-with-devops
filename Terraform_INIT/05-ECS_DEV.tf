@@ -15,7 +15,7 @@ resource "aws_ecs_task_definition" "deploy" {
   container_definitions = <<TASK_DEFINITION
   [
    name        = "${var.app_name}-container-${var.app_env}"
-   image       = "${var.caller_id}.dkr.ecr.${var.region}.amazonaws.com/${var.app_name}-${var.app_env}-ecr:${var.dev_image_tag}"
+   image       = "account_id.dkr.ecr.${var.region}.amazonaws.com/${var.app_name}-${var.app_env}-ecr:${var.dev_image_tag}"
    essential   = true 
   
   #--------UNUSED IN IMPLEMENTATION

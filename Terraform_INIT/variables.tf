@@ -5,4 +5,3 @@ variable "private_subnets" {}
 variable "app_name" {}
 variable "app_env" {}
 variable "dev_image_tag" {}
-variable "caller_id" {}
