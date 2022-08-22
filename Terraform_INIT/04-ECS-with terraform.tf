@@ -7,12 +7,6 @@ resource "aws_ecs_cluster" "ecs-dev" {
   }
 }
 
-  inference_accelerator {
-    device_name = "device_1"
-    device_type = "eia1.medium"
-  }
-
-
 #--------------------ECS AUTOSCALING GROUP (EC2 Instances)----------------
 
 #IAM
