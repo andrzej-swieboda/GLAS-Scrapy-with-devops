@@ -5,4 +5,4 @@ private_subnets = "10.0.0.192/26"
 app_name = "scrapy"
 app_env = "dev"
 dev_image_tag = "DEV_SCRAPY_IMAGE"
-caller_id = account_id
+caller_id = data.aws_caller_identity.current.account_id
