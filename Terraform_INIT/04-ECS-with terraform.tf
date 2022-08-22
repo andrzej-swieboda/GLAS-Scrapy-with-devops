@@ -7,43 +7,62 @@ resource "aws_ecs_cluster" "ecs-dev" {
   }
 }
 
-resource "aws_ecs_service" "scrapy-dev" {
-    name            = "scrapy-test-service"
-    cluster         = aws_ecs_cluster.ecs-dev.id
-    task_definition = aws_ecs_task_definition.service.arn
-    desired_count   = 1
-}
-
-resource "aws_ecs_task_definition" "service" {
-    family  = "service"
-container_definitions = <<TASK_DEFINITION
-[
-  {
-    "cpu": 10,
-    "command": ["sleep", "10"],
-    "entryPoint": ["/"],
-    "essential": true,
-    "image": "jenkins",
-    "memory": 128,
-    "name": "jenkins",
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "hostPort": 8080
-      }
-    ],
-        "resourceRequirements":[
-            {
-                "type":"InferenceAccelerator",
-                "value":"device_1"
-            }
-        ]
-  }
-]
-TASK_DEFINITION
-
   inference_accelerator {
     device_name = "device_1"
     device_type = "eia1.medium"
   }
+
+
+#--------------------ECS AUTOSCALING GROUP (EC2 Instances)----------------
+
+#IAM
+
+
+data "aws_iam_policy_document" "ecs_agent" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_agent" {
+  name               = "ecs-agent"
+  assume_role_policy = data.aws_iam_policy_document.ecs_agent.json
+}
+
+
+resource "aws_iam_role_policy_attachment" "ecs_agent" {
+  role       = "aws_iam_role.ecs_agent.name"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+resource "aws_iam_instance_profile" "ecs_agent" {
+  name = "ecs-agent"
+  role = aws_iam_role.ecs_agent.name
+}
+
+#CREATE AUTOSCALING GROUP
+
+resource "aws_launch_configuration" "ecs_launch_config" {
+    image_id             = "ami-040d909ea4e56f8f3"
+    iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
+    security_groups      = [aws_security_group.ecs_sg.id]
+    user_data            = "#!/bin/bash\necho ECS_CLUSTER=my-cluster >> /etc/ecs/ecs.config"
+    instance_type        = "t2.medium"   #LIMITS WITH 2VCPU and 4GIB memory
+}
+
+resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
+    name                      = "asg"
+    vpc_zone_identifier       = [aws_subnet.publicsubnets.id]
+    launch_configuration      = aws_launch_configuration.ecs_launch_config.name
+
+    desired_capacity          = 1
+    min_size                  = 1
+    max_size                  = 10
+    health_check_grace_period = 300
+    health_check_type         = "EC2"
 }
