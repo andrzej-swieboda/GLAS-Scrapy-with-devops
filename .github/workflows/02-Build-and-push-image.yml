@@ -1,9 +1,9 @@
 name: 02-Building and pushing dev image
 
 on:
-  workflow_run:
-    workflows: ["01-Installing and initiating Terraform"]
-    types: [completed]
+  #workflow_run:
+  #  workflows: ["01-Installing and initiating Terraform"]
+  #  types: [completed]
   workflow_dispatch:    
 
 jobs:

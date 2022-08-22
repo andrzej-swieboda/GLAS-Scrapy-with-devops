@@ -4,3 +4,5 @@ public_subnets = "10.0.0.128/26"
 private_subnets = "10.0.0.192/26"
 app_name = "scrapy"
 app_env = "dev"
+dev_image_tag = "DEV_SCRAPY_IMAGE"
+caller_id = account_id

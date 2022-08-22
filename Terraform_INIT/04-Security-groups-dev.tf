@@ -1,4 +1,4 @@
-resource "aws_security_group" "ecs_sg" {
+resource "aws_security_group" "dev_ecs_sg" {
     name = "ecs-sg"
     vpc_id      = aws_vpc.vpc-dev.id
 
