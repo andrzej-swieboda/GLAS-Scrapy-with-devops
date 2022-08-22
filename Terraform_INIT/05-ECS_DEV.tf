@@ -9,22 +9,17 @@ resource "aws_ecs_task_definition" "deploy" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
-  memory                   = 1024
+  memory                   = 2048
   #execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   #task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = <<TASK_DEFINITION
   [
     {
-      name        = "${var.app_name}-container-${var.app_env}"
-      image       = "693798433817.dkr.ecr.${var.region}.amazonaws.com/${var.app_name}-${var.app_env}-ecr:${var.dev_image_tag}"
-      essential   = true 
-    
-      #--------UNUSED IN IMPLEMENTATION
-      portMappings = [{
-        protocol      = "tcp"
-        containerPort = 80
-        hostPort      = 80
-      }]
+      "name"        :"${var.app_name}-container-${var.app_env}",
+      "image"       : "693798433817.dkr.ecr.${var.region}.amazonaws.com/${var.app_name}-${var.app_env}-ecr:${var.dev_image_tag}",
+      "essential"   : true,
+      "cpu"         : 1024
+      "memory"      : 1024
     }
   ]
   TASK_DEFINITION
