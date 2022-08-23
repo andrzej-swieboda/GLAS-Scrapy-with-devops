@@ -6,3 +6,4 @@ variable "app_name" {}
 variable "app_env" {}
 variable "dev_image_tag" {}
 variable "caller_id" {}
+variable "dev_ecr_url" {}
