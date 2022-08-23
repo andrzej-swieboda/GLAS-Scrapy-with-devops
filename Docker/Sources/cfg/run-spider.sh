@@ -1,7 +1,5 @@
 #! /bin/bash
 
-#! /bin/bash
-
 echo "Initiating spider crawl"
 
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
