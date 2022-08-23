@@ -17,6 +17,24 @@ resource "aws_ecs_task_definition" "deploy" {
     {
       "name"        :"${var.app_name}-container-${var.app_env}",
       "image"       : "${aws_ecr_repository.dev-repository.repository_url}:${var.dev_image_tag}",
+      "command": [
+          "/projects/cfg/Output-setup.sh"
+        ],
+      "workingDirectory": "/projects/cfg/",
+      "secrets": [
+          {
+            "valueFrom": "${aws_ssm_parameter.AKID.arn}",
+            "name": "AKID"
+          },
+          {
+            "valueFrom": "${aws_ssm_parameter.SAK.arn}",
+            "name": "SAK"
+          },
+          {
+            "valueFrom": "${aws_ssm_parameter.OUTPUT_BUCKET_NAME.arn}",
+            "name": "OUTPUT_BUCKET_NAME"
+          }
+        ],
       "essential"   : true,
       "cpu"         : 1024,
       "memory"      : 1024
