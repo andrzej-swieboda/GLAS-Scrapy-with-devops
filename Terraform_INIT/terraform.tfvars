@@ -6,4 +6,4 @@ app_name = "scrapy"
 app_env = "dev"
 dev_image_tag = "DEV_SCRAPY_IMAGE"
 caller_id = "data.aws_caller_identity.current.account_id"
-dev_ecr_url = aws_ecr_repository.dev-repository.repository_url
+dev_ecr_url = "repository_url"
