@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "deploy" {
   [
     {
       "name"        :"${var.app_name}-container-${var.app_env}",
-      "image"       : "${var.dev_ecr_url}:${var.dev_image_tag}",
+      "image"       : "${aws_ecr_repository.dev-repository.repository_url}:${var.dev_image_tag}",
       "essential"   : true,
       "cpu"         : 1024,
       "memory"      : 1024
