@@ -1,5 +1,10 @@
 FROM ubuntu:latest
 
+#project specific variables
+
+ENV PROJECT_NAME MOTI_PROJECT
+ENV SPIDER_NAME motywatorka
+ENV SPIDER_FILE motywatorka_spider.py
 
 #install dependencies
 
@@ -27,7 +32,6 @@ RUN ./aws/install
 #install main package
 
 RUN pip install scrapy
-RUN mkdir outputs
 
 #copy sources for the project
 
@@ -36,7 +40,7 @@ COPY Sources ./projects
 #Initiate project and start crawlers
 
 RUN chmod +x ./projects/cfg/Project-setup.sh
-RUN chmod +x ./projects/cfg/Output-setup.sh
+RUN chmod +x ./projects/cfg/run-spider.sh
 RUN ./projects/cfg/Project-setup.sh
 
 

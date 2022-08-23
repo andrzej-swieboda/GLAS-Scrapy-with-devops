@@ -1,8 +1,11 @@
 resource "aws_ecs_cluster" "main" {
   name = "${var.app_name}-cluster-${var.app_env}"
+
+  setting {
+    name = "containerInsights"
+    value = "enabled"
+  }
 }
-
-
 
 resource "aws_ecs_task_definition" "deploy" {
   family                   = "test"
@@ -18,7 +21,7 @@ resource "aws_ecs_task_definition" "deploy" {
       "name"        :"${var.app_name}-container-${var.app_env}",
       "image"       : "${aws_ecr_repository.dev-repository.repository_url}:${var.dev_image_tag}",
       "command": [
-          "/projects/cfg/Output-setup.sh"
+          "/projects/cfg/run-spider.sh"
         ],
       "workingDirectory": "/projects/cfg/",
       "secrets": [
