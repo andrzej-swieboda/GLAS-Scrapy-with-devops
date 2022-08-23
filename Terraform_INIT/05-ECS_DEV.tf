@@ -72,8 +72,7 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
   statement {
     sid = ""
     effect = "Allow"
-    actions = ["sts:AssumeRole", "ssm:GetParameters"]
-    resources = "*"
+    actions = ["sts:AssumeRole"]
 
     principals {
       type        = "Service"
@@ -92,4 +91,31 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+
+}
+
+# ECS policy for parameter store
+
+resource "aws_iam_policy" "policy" {
+  name        = "test-policy"
+  description = "A test policy"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "ssm:GetParameters",
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.policy.arn
 }
