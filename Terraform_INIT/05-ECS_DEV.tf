@@ -1,10 +1,5 @@
 resource "aws_ecs_cluster" "main" {
   name = "${var.app_name}-cluster-${var.app_env}"
-
-  setting {
-    name = "containerInsights"
-    value = "enabled"
-  }
 }
 
 resource "aws_ecs_task_definition" "deploy" {
