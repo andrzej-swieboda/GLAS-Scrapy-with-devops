@@ -10,7 +10,7 @@ cd ./projects/$PROJECT_NAME/spiders/
 
 scrapy crawl $SPIDER_NAME -o $SPIDER_NAME$current_time.json
 
-cp ./$SPIDER_NAME*.json /outputs
+cp /projects/$PROJECT_NAME/spiders/$SPIDER_NAME$current_time.json /outputs
 
 echo "Copying to storage"
 
