@@ -7,6 +7,8 @@ SPIDER_FILE=motywatorka_spider.py
 
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 
+cd ./projects/$PROJECT_NAME/spiders/
+
 aws configure set aws_access_key_id $AKID
 aws configure set aws_secret_access_key $SAK
 aws configure set default.region us-east-1
