@@ -1,6 +1,6 @@
 #! /bin/bash
 
-set -e
+#set -e
 
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 spider_name=motywatorka
