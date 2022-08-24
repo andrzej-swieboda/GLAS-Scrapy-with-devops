@@ -3,16 +3,16 @@
 set -e
 
 PROJECT_NAME=MOTI_PROJECT
-SPIDER_NAME=motywatorka
 SPIDER_FILE=motywatorka_spider.py
 
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
+spider_name=motywatorka
 
 cd /projects/MOTI_PROJECT/spiders/
 
-scrapy crawl motywatorka -o -$SPIDER_NAME-output-$current_time.json
+scrapy crawl motywatorka -o $spider_name-$current_time.json
 
-cp /projects/MOTI_PROJECT/spiders/*-output-*.json /outputs
+cp /projects/MOTI_PROJECT/spiders/*.json /outputs
 
 aws configure set aws_access_key_id $AKID
 aws configure set aws_secret_access_key $SAK
