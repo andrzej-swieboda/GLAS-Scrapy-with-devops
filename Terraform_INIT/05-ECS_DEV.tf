@@ -147,7 +147,6 @@ resource "aws_cloudwatch_event_target" "ecs_scheduled_task" {
     task_count          = 1
     task_definition_arn = aws_ecs_task_definition.deploy-dev.arn                     ###############################################################
     network_configuration {
-      vpc_id = aws_vpc.vpc-dev.id
       subnets = [aws_subnet.publicsubnets.id]
       security_groups = [ aws_security_group.dev_ecs_sg.id ]
       assign_public_ip = true
