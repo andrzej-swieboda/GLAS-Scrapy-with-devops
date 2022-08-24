@@ -4,7 +4,11 @@ on:
   #workflow_run:
   #  workflows: ["01-Installing and initiating Terraform"]
   #  types: [completed]
-  workflow_dispatch:    
+  workflow_dispatch:
+  push:
+    branches:
+      - testing-branch
+
 
 jobs:
   build:

@@ -22,7 +22,5 @@ cd ./projects/$PROJECT_NAME/spiders/
 echo "Script Completed with project name $PROJECT_NAME"
 echo "Initiating spider crawl"
 
-scrapy crawl $SPIDER_NAME -o $SPIDER_NAME$current_time.json
-
-cp ./$SPIDER_NAME*.json /outputs
+scrapy crawl $SPIDER_NAME
 
