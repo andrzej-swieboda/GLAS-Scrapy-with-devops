@@ -8,7 +8,7 @@ poject_name=MOTI_PROJECT
 
 cd /projects/$project_name/spiders/
 
-scrapy crawl motywatorka -o $spider_name-$current_time.json
+scrapy crawl motywatorka -o motywatorka-$current_time.json
 
 cp /projects/MOTI_PROJECT/spiders/*.json /outputs
 

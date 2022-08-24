@@ -12,8 +12,6 @@ SPIDER_FILE=motywatorka_spider.py
 
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 
-mkdir output
-
 scrapy startproject $PROJECT_NAME ../projects
 cp ./projects/$SPIDER_FILE ./projects/$PROJECT_NAME/spiders
 
