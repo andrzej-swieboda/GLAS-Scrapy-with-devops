@@ -3,7 +3,34 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_iam_role" "cloudwatch_role" {
   name               = "Deploy-cloudwatch-execution"
-  assume_role_policy = data.aws_iam_policy_document.cloudwatch_assume_role.json
+  assume_role_policy = <<EOF
+  {
+  "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "ecs:RunTask"
+              ],
+              "Resource": [
+                  "*"
+              ]
+          },
+          {
+              "Effect": "Allow",
+              "Action": "iam:PassRole",
+              "Resource": [
+                  "*"
+              ],
+              "Condition": {
+                  "StringLike": {
+                      "iam:PassedToService": "ecs-tasks.amazonaws.com"
+                  }
+              }
+          }
+      ]
+  }
+  EOF
 }
 
   resource "aws_iam_role_policy_attachment" "cloudwatch" {
@@ -60,16 +87,23 @@ resource "aws_iam_policy" "task_execution_logging_policy" {
 
 // Cloudwatch execution role
 data "aws_iam_policy_document" "cloudwatch_assume_role" {
+  version = "2012-10-17"
   statement {
-    principals {
-      type = "Service"
-      identifiers = [
-        "events.amazonaws.com",
-        "ecs-tasks.amazonaws.com",
-      ]
-    }
-    actions = ["sts:AssumeRole"]
+    effect = "Allow"
+    action = ["ecs:RunTask"]
+    resource = ["*"]
   }
+  
+
+    #principals {
+    #  type = "Service"
+    #  identifiers = [
+    #    "events.amazonaws.com",
+    #    "ecs-tasks.amazonaws.com",
+    #  ]
+    #}
+    #actions = ["sts:AssumeRole"]
+  
 }
 
 data "aws_iam_policy_document" "cloudwatch" {
