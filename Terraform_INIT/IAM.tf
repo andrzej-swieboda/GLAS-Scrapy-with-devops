@@ -87,22 +87,14 @@ resource "aws_iam_policy" "task_execution_logging_policy" {
 
 // Cloudwatch execution role
 data "aws_iam_policy_document" "cloudwatch_assume_role" {
-  version = "2012-10-17"
-  statement {
-    effect = "Allow"
-    action = ["ecs:RunTask"]
-    resource = ["*"]
-  }
-  
-
-    #principals {
-    #  type = "Service"
-    #  identifiers = [
-    #    "events.amazonaws.com",
-    #    "ecs-tasks.amazonaws.com",
-    #  ]
-    #}
-    #actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = [
+        "events.amazonaws.com",
+        "ecs-tasks.amazonaws.com",
+      ]
+    }
+    actions = ["sts:AssumeRole"]
   
 }
 
