@@ -2,15 +2,13 @@
 
 set -e
 
-PROJECT_NAME=MOTI_PROJECT
-SPIDER_FILE=motywatorka_spider.py
-
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 spider_name=motywatorka
+poject_name=MOTI_PROJECT
 
-cd /projects/MOTI_PROJECT/spiders/
+cd /projects/$project_name/spiders/
 
-scrapy crawl motywatorka -o $spider_name-$current_time.json
+scrapy crawl $spider_name -o $spider_name-$current_time.json
 
 cp /projects/MOTI_PROJECT/spiders/*.json /outputs
 
