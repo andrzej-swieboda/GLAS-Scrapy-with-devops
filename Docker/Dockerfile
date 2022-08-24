@@ -3,9 +3,9 @@ FROM ubuntu:latest
 #Place for project specific variables
 #sounds great, doesn't work - check out Sources/CfgOutput-setup.sh
 
-#ENV PROJECT_NAME MOTI_PROJECT
-#ENV SPIDER_NAME motywatorka
-#ENV SPIDER_FILE motywatorka_spider.py
+ENV PROJECT_NAME MOTI_PROJECT
+ENV SPIDER_NAME motywatorka
+ENV SPIDER_FILE motywatorka_spider.py
 
 #install dependencies
 
