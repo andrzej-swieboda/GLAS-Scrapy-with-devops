@@ -145,7 +145,7 @@ resource "aws_cloudwatch_event_target" "ecs_scheduled_task" {
     launch_type         = "FARGATE"
     platform_version    = "LATEST"
     task_count          = 1
-    task_definition_arn = aws_ecs_task_definition.this.arn                     ###############################################################
+    task_definition_arn = aws_ecs_task_definition.deploy-dev.arn                     ###############################################################
     network_configuration {
       subnets = var.subnet_ids
     }

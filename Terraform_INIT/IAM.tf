@@ -41,13 +41,13 @@ data "aws_iam_policy_document" "task_execution_cloudwatch_access" {
 }
 
 locals {
-  ecs_task_execution_role_arn  = aws_iam_role.task_execution_role.arn
-  ecs_task_execution_role_name = aws_iam_role.task_execution_role.name
+  ecs_task_execution_role_arn  = aws_iam_role.ecs_task_execution_role.arn
+  ecs_task_execution_role_name = aws_iam_role.ecs_task_execution_role.name
 }
 
 
 resource "aws_iam_role" "task_execution_role" {
-  count = var.ecs_task_execution_role_name == "" ? 1 : 0
+  count = aws_iam_role.ecs_task_execution_role.name == "" ? 1 : 0
 
   name               = "${var.task_name}-execution"
   assume_role_policy = data.aws_iam_policy_document.task_execution_assume_role.json
