@@ -1,10 +1,11 @@
 FROM ubuntu:latest
 
-#project specific variables
+#Place for project specific variables
+#sounds great, doesn't work - check out Sources/CfgOutput-setup.sh
 
-ENV PROJECT_NAME MOTI_PROJECT
-ENV SPIDER_NAME motywatorka
-ENV SPIDER_FILE motywatorka_spider.py
+#ENV PROJECT_NAME MOTI_PROJECT
+#ENV SPIDER_NAME motywatorka
+#ENV SPIDER_FILE motywatorka_spider.py
 
 #install dependencies
 
@@ -40,7 +41,7 @@ COPY Sources ./projects
 #Initiate project and start crawlers
 
 RUN chmod +x ./projects/cfg/Project-setup.sh
-RUN chmod +x ./projects/cfg/run-spider.sh
+RUN chmod +x ./projects/cfg/Output-setup.sh
 RUN ./projects/cfg/Project-setup.sh
 
 

@@ -3,6 +3,7 @@
 #Set variable for project name
 #only numbers, letters and underscores in names
 
+
 set -e
 PROJECT_NAME=MOTI_PROJECT
 SPIDER_NAME=motywatorka

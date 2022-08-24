@@ -2,8 +2,10 @@ resource "aws_ecs_cluster" "main" {
   name = "${var.app_name}-cluster-${var.app_env}"
 }
 
+
+
 resource "aws_ecs_task_definition" "deploy" {
-  family                   = "test"
+  family                   = "Deploy"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
@@ -16,7 +18,7 @@ resource "aws_ecs_task_definition" "deploy" {
       "name"        :"${var.app_name}-container-${var.app_env}",
       "image"       : "${aws_ecr_repository.dev-repository.repository_url}:${var.dev_image_tag}",
       "command": [
-          "/projects/cfg/run-spider.sh"
+          "/projects/cfg/Output-setup.sh"
         ],
       "workingDirectory": "/projects/cfg/",
       "secrets": [
@@ -113,11 +115,7 @@ resource "aws_iam_policy" "policy" {
 EOF
 }
 
-<<<<<<< HEAD
 resource "aws_iam_role_policy_attachment" "parameter-store-att" {
-=======
-resource "aws_iam_role_policy_attachment" "parameter_store_attachment" {
->>>>>>> a363e9a873246d09ddb7a6fa70eb354e3c544a85
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.policy.arn
 }

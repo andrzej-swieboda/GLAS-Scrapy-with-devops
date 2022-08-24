@@ -1,5 +1,8 @@
 #! /bin/bash
 
+#there is a problem with variables, it's to be checked out in later work
+# my guess is that they have been declared in Project-setup.sh, but there is no more time for testing
+
 set -e
 
 PROJECT_NAME=MOTI_PROJECT
