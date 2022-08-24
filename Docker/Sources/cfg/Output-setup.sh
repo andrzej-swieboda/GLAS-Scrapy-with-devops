@@ -1,15 +1,8 @@
 #! /bin/bash
 
-#there is a problem with variables, it's to be checked out in later work
-# my guess is that they have been declared in Project-setup.sh, but there is no more time for testing
-
 set -e
 
-PROJECT_NAME=MOTI_PROJECT
-SPIDER_FILE=motywatorka_spider.py
-
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
-spider_name=motywatorka
 
 cd /projects/MOTI_PROJECT/spiders/
 
