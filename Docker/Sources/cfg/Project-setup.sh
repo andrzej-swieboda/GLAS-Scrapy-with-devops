@@ -9,8 +9,6 @@ PROJECT_NAME=MOTI_PROJECT
 SPIDER_NAME=motywatorka
 SPIDER_FILE=motywatorka_spider.py
 
-current_time=$(date "+%Y.%m.%d-%H.%M.%S")
-
 scrapy startproject $PROJECT_NAME ../projects
 cp ./projects/$SPIDER_FILE ./projects/$PROJECT_NAME/spiders
 
