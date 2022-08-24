@@ -113,7 +113,11 @@ resource "aws_iam_policy" "policy" {
 EOF
 }
 
+<<<<<<< HEAD
+resource "aws_iam_role_policy_attachment" "parameter-store-att" {
+=======
 resource "aws_iam_role_policy_attachment" "parameter_store_attachment" {
+>>>>>>> a363e9a873246d09ddb7a6fa70eb354e3c544a85
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.policy.arn
 }
