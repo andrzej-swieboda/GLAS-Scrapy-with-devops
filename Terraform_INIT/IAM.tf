@@ -8,7 +8,7 @@ resource "aws_iam_role" "cloudwatch_role" {
 
   resource "aws_iam_role_policy_attachment" "cloudwatch" {
   role       = aws_iam_role.cloudwatch_role.name
-  policy_arn = aws_iam_policy.cloudwatch.arn
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
 }
 
 resource "aws_iam_policy" "cloudwatch" {
