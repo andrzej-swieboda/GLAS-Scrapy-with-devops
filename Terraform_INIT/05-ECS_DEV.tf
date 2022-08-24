@@ -147,7 +147,7 @@ resource "aws_cloudwatch_event_target" "ecs_scheduled_task" {
     task_count          = 1
     task_definition_arn = aws_ecs_task_definition.deploy-dev.arn                     ###############################################################
     network_configuration {
-      subnets = aws_subnet.publicsubnets.id
+      subnets = ["subnet-031e3985add626dbd"]
     }
 
   }
