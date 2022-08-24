@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "main" {
 
 
 
-resource "aws_ecs_task_definition" "deploy" {
+resource "aws_ecs_task_definition" "deploy-dev" {
   family                   = "Deploy"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -122,4 +122,34 @@ EOF
 resource "aws_iam_role_policy_attachment" "parameter-store-att" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.policy.arn
+}
+
+
+############-------cloudwatch rule for scheduling task
+
+
+
+resource "aws_cloudwatch_event_rule" "event_rule" {
+  name                = "Deploy"
+  schedule_expression = "cron(0/5 * * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "ecs_scheduled_task" {
+  rule      = aws_cloudwatch_event_rule.event_rule.name
+  target_id = "Deploy"
+  arn       = aws_ecs_cluster.main.arn
+  role_arn  = aws_iam_role.cloudwatch_role.arn                                 ###############################################################
+
+  ecs_target {
+
+    launch_type         = "FARGATE"
+    platform_version    = "LATEST"
+    task_count          = 1
+    task_definition_arn = aws_ecs_task_definition.this.arn                     ###############################################################
+    network_configuration {
+      subnets = var.subnet_ids
+    }
+
+  }
+
 }
