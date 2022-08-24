@@ -3,45 +3,18 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_iam_role" "cloudwatch_role" {
   name               = "Deploy-cloudwatch-execution"
-  assume_role_policy = <<EOF
-  {
-  "Version": "2012-10-17",
-      "Statement": [
-          {
-              "Effect": "Allow",
-              "Action": [
-                  "ecs:RunTask"
-              ],
-              "Resource": [
-                  "*"
-              ]
-          },
-          {
-              "Effect": "Allow",
-              "Action": "iam:PassRole",
-              "Resource": [
-                  "*"
-              ],
-              "Condition": {
-                  "StringLike": {
-                      "iam:PassedToService": "ecs-tasks.amazonaws.com"
-                  }
-              }
-          }
-      ]
-  }
-  EOF
+  assume_role_policy = data.aws_iam_policy_document.cloudwatch_assume_role.json
 }
 
-#  resource "aws_iam_role_policy_attachment" "cloudwatch" {
-#  role       = aws_iam_role.cloudwatch_role.name
-#  policy_arn = aws_iam_policy.cloudwatch.arn
-#}
+  resource "aws_iam_role_policy_attachment" "cloudwatch" {
+  role       = aws_iam_role.cloudwatch_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
+}
 
-#resource "aws_iam_policy" "cloudwatch" {
-#  name   = "Deploy-cloudwatch-execution"
-#  policy = data.aws_iam_policy_document.cloudwatch.json
-#}
+resource "aws_iam_policy" "cloudwatch" {
+  name   = "Deploy-cloudwatch-execution"
+  policy = data.aws_iam_policy_document.cloudwatch.json
+}
 
 data "aws_iam_policy_document" "task_execution_assume_role" {
   statement {
@@ -86,7 +59,18 @@ resource "aws_iam_policy" "task_execution_logging_policy" {
 }
 
 // Cloudwatch execution role
-
+data "aws_iam_policy_document" "cloudwatch_assume_role" {
+  statement {
+    principals {
+      type = "Service"
+      identifiers = [
+        "events.amazonaws.com",
+        "ecs-tasks.amazonaws.com",
+      ]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
 
 data "aws_iam_policy_document" "cloudwatch" {
     statement {
