@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#set -e
+set -e
 
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 spider_name=motywatorka
@@ -8,7 +8,7 @@ poject_name=MOTI_PROJECT
 
 cd /projects/$project_name/spiders/
 
-scrapy crawl $spider_name -o $spider_name-$current_time.json
+scrapy crawl motywatorka -o $spider_name-$current_time.json
 
 cp /projects/MOTI_PROJECT/spiders/*.json /outputs
 
