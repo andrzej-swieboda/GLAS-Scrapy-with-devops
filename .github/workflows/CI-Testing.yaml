@@ -27,7 +27,6 @@ jobs:
       run: |
         terraform init -reconfigure -upgrade
         terraform validate
-        terraform plan
 
     - name: Test - Build the Docker image
       working-directory: ./Docker
