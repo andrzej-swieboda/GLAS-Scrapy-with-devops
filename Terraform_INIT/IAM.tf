@@ -4,6 +4,7 @@ data "aws_caller_identity" "current" {}
 resource "aws_iam_role" "cloudwatch_role" {
   name               = "Deploy-cloudwatch-execution"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_assume_role.json
+}
 
   resource "aws_iam_role_policy_attachment" "cloudwatch" {
   role       = aws_iam_role.cloudwatch_role.name
