@@ -16,6 +16,9 @@ cp ./projects/$SPIDER_FILE ./projects/$PROJECT_NAME/spiders
 
 echo "Script Completed with project name $PROJECT_NAME"
 
+cd ./projects/$PROJECT_NAME/spiders
 scrapy crawl $SPIDER_NAME
+
+echo "Spider crawled"
 
 
