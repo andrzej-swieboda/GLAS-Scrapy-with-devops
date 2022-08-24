@@ -33,15 +33,15 @@ resource "aws_iam_role" "cloudwatch_role" {
   EOF
 }
 
-  resource "aws_iam_role_policy_attachment" "cloudwatch" {
-  role       = aws_iam_role.cloudwatch_role.name
-  policy_arn = aws_iam_policy.cloudwatch.arn
-}
+#  resource "aws_iam_role_policy_attachment" "cloudwatch" {
+#  role       = aws_iam_role.cloudwatch_role.name
+#  policy_arn = aws_iam_policy.cloudwatch.arn
+#}
 
-resource "aws_iam_policy" "cloudwatch" {
-  name   = "Deploy-cloudwatch-execution"
-  policy = data.aws_iam_policy_document.cloudwatch.json
-}
+#resource "aws_iam_policy" "cloudwatch" {
+#  name   = "Deploy-cloudwatch-execution"
+#  policy = data.aws_iam_policy_document.cloudwatch.json
+#}
 
 data "aws_iam_policy_document" "task_execution_assume_role" {
   statement {
