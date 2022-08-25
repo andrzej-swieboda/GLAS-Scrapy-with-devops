@@ -1,4 +1,4 @@
-resource "aws_iam_user_policy" "s3_policy" {
+resource "aws_iam_policy" "s3_policy" {
     name        = "s3_policy"
     description = "Allow all s3 actions"
     policy  = jsonencode({

@@ -5,7 +5,7 @@ resource "aws_ssm_parameter" "AKID" {
   value       = aws_iam_access_key.deploy-s3-agent.id
   lifecycle {
     ignore_changes = [
-      all
+      all,
     ]
   }
 
@@ -18,7 +18,7 @@ resource "aws_ssm_parameter" "SAK" {
   value       = aws_iam_access_key.deploy-s3-agent.secret
   lifecycle {
     ignore_changes = [
-      all
+      all,
     ]
   }
 
@@ -31,7 +31,7 @@ resource "aws_ssm_parameter" "OUTPUT_BUCKET_NAME" {
   value       = "dev-scrapy-output"
   lifecycle {
     ignore_changes = [
-      all
+      all,
     ]
   }
 

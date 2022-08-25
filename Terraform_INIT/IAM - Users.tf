@@ -6,7 +6,7 @@ resource "aws_iam_user" "ECS-S3-sender" {
     force_destroy   = true
 }
 
-resource "aws_iam_user_policy_attachement" "attach_s3_policy" {
+resource "aws_iam_user_policy_attachment" "attach_s3_policy" {
     user            = aws_iam_user.ECS-S3-sender.name
     policy_arn      = aws_iam_policy.s3_policy.arn
 }
