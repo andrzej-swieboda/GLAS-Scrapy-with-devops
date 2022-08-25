@@ -42,6 +42,7 @@ jobs:
     - name: Terraform fmt and validate
       working-directory: ./Terraform_INIT
       run: |
+        terraform fmt
         terraform fmt -check
         terraform validate
 
