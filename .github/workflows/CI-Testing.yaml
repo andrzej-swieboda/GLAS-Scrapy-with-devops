@@ -22,7 +22,7 @@ jobs:
     - name: Terraform fmt and validate
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -backend-config="/Temp/CI-Configuration.tf"
+        terraform init -backend-config="../Temp/CI-Configuration.tf"
 
   Unit_tests:
     name: 1- Unit tests
