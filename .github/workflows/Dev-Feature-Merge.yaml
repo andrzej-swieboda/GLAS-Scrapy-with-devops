@@ -1,0 +1,68 @@
+name: CI testing on Feature-Branch update
+
+on: 
+  workflow_dispatch:
+  pull_request:
+    branches:
+    - feature-branch
+
+jobs:
+  Test_terraform:
+    name: Test terraform
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: 'us-east-1'
+
+    - name: Install Terraform
+      uses: little-core-labs/install-terraform@v2.0.0
+      with:
+        version: 1.2.6
+    
+    - name: Terraform prepare
+      working-directory: ./Terraform_INIT
+      run:
+        set -e
+        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        export AWS_REGION="us-east-1"
+
+    - name: Make bucket for terraform state file
+      run: |
+        aws s3api create-bucket --bucket ${{ secrets.DEV }} --region us-east-1
+        aws s3api put-object --bucket ${{ secrets.DEV }} --key production --acl private
+      
+
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.REGION }}
+
+    - name: AWS Plan Copy
+      id: copyfrom
+      run: aws s3 cp s3://${{ secrets.MAIN_BUCKET }}/production/terraform.tfstate production/terraform.tfstate
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.REGION }}
+      continue-on-error: true # incase infra does not exist
+
+    - name: Terraform apply
+      working-directory: ./Terraform_INIT
+      run: |
+        terraform init -reconfigure -upgrade
+        terraform fmt
+        terraform fmt -check
+        terraform validate
+        terraform plan
+
+
+
