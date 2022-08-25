@@ -1,49 +1,31 @@
 name: CI Testing and building test image
 
 on:
-  workflow_dispatch:
-    
+  push:
+  pull_request:
 
 jobs:
-  build:
 
+  Unit_tests:
+    name: 1- Unit tests
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Perform unit tests on code
+      run: echo ------------------PLEASE PUT TESTS HERE------------------------------
+
+  Build:
+    name: 2- Test build docker image
+    needs: Unit_tests
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: 'us-east-1'
-
-    - name: Install Terraform
-      uses: little-core-labs/install-terraform@v2.0.0
-      with:
-        version: 1.2.6
-
-    - name: Terraform prepare
-      working-directory: ./Terraform_INIT
-      run:
-        set -e
-        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        export AWS_REGION="us-east-1"
-
-    - name: Test terraform configuration
-      working-directory: ./Terraform_INIT
-      run: |
-        terraform init -reconfigure -upgrade
-        terraform validate
-
+    - uses: actions/checkout@v3
     - name: Test - Build the Docker image
       working-directory: ./Docker
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build .
 
-       
+
+
