@@ -1,10 +1,11 @@
 name: CI testing on Feature-Branch update
 
-on: 
-  workflow_dispatch:
+on:
   pull_request:
     branches:
     - feature-branch
+  workflow_dispatch:
+    
 
 jobs:
   Test_terraform:
