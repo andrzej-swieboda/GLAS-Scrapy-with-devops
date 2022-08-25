@@ -2,12 +2,19 @@ name: CI Testing and building test image
 
 on:
   push:
+  pull_request:
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
     steps:
+    - uses: actions/checkout@v3
     - name: Test - Build the Docker image
       working-directory: ./Docker
       run: docker build .
