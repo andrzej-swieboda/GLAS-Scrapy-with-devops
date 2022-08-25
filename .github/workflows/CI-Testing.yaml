@@ -10,6 +10,6 @@ jobs:
     steps:
     - name: Test - Build the Docker image
       working-directory: ./Docker
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build .
 
        
