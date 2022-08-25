@@ -5,6 +5,28 @@ on:
   pull_request:
 
 jobs:
+
+  Terraform_Unit_Check:
+    name: 3- Basic terraform configuration actions/checkout
+    #needs: [Unit_tests, Build]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: install local terraform
+      uses: little-core-labs/install-terraform@v2.0.0
+      with:
+        version: 1.2.6
+
+    - name: Terraform fmt and validate
+      working-directory: ./Terraform_INIT
+      run: |
+        terraform init -backend-config="CI"
+        terraform fmt
+        terraform fmt -check
+        terraform validate
+
   Unit_tests:
     name: 1- Unit tests
     runs-on: ubuntu-latest
@@ -26,25 +48,3 @@ jobs:
       working-directory: ./Docker
       run: docker build .
 
-  Terraform_Unit_Check:
-    name: 3- Basic terraform configuration actions/checkout
-    needs: [Unit_tests, Build]
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: install local terraform
-      uses: little-core-labs/install-terraform@v2.0.0
-      with:
-        version: 1.2.6
-
-    - name: Terraform fmt and validate
-      working-directory: ./Terraform_INIT
-      run: |
-        terraform init \ -backend-config="consul"
-        terraform fmt
-        terraform fmt -check
-        terraform validate
-
-       
