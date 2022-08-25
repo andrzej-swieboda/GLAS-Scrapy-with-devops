@@ -42,7 +42,7 @@ jobs:
     - name: Terraform fmt and validate
       working-directory: ./Terraform_INIT
       run: |
-        terraform init
+        terraform init \ -backend-config="consul"
         terraform fmt
         terraform fmt -check
         terraform validate
