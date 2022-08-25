@@ -1,8 +1,5 @@
 terraform {
 
-  backend "CI" {
-  }
-
   backend "s3" {
     bucket = "scrapy-dev-backend"
     key    = "production/terraform.tfstate"
