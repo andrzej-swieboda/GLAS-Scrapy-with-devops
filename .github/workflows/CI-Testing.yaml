@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  Unit_tests:
 
     runs-on: ubuntu-latest
 
@@ -13,6 +13,14 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Perform unit tests on code
+      run: echo ------------------PLEASE PUT TESTS HERE------------------------------
+
+  Build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
     - name: Test - Build the Docker image
       working-directory: ./Docker
       run: docker build .
