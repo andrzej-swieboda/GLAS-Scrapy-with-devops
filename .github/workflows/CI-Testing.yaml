@@ -27,7 +27,7 @@ jobs:
       run: docker build .
 
   Terraform_Unit_Check:
-    name: 3- Bsic terraform configuration actions/checkout
+    name: 3- Basic terraform configuration actions/checkout
     needs: [Unit_tests, Build]
     runs-on: ubuntu-latest
 
@@ -42,7 +42,6 @@ jobs:
     - name: Terraform fmt and validate
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade
         terraform fmt -check
         terraform validate
 
