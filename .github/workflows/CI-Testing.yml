@@ -2,11 +2,9 @@ name: CI Testing and building test image
 
 on:
   push:
-    branches:
-    - dev-branch
+    branches: ["dev-branch"]
   pull_request:
-    branches:
-    - feature-branch
+    branches: ["feature-branch"]
 
 jobs:
 
