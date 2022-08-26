@@ -12,6 +12,7 @@ jobs:
     name: Test terraform
 
     runs-on: ubuntu-latest
+    environment: Testing
 
     steps:
     - uses: actions/checkout@v1
@@ -38,8 +39,8 @@ jobs:
 
     - name: Make bucket for terraform state file
       run: |
-        aws s3api create-bucket --bucket ${{ secrets.DEV }} --region us-east-1
-        aws s3api put-object --bucket ${{ secrets.DEV }} --key production --acl private
+        aws s3api create-bucket --bucket ${{ secrets.MAIN_BUCKET }} --region us-east-1
+        aws s3api put-object --bucket ${{ secrets.MAIN_BUCKET }} --key production --acl private
       
 
       env:
@@ -54,7 +55,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
-      continue-on-error: true # incase infra does not exist
+      continue-on-error: false # infra does not exist
 
     - name: Terraform apply
       working-directory: ./Terraform_INIT
@@ -64,6 +65,15 @@ jobs:
         terraform fmt -check
         terraform validate
         terraform plan
+
+    - name: Remove AWS Plan after test
+      id: copyfrom
+      run: aws s3 rm s3://${{ secrets.MAIN_BUCKET }}/production --recursive
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.REGION }}
+      continue-on-error: false # infra does not exist
 
 
 

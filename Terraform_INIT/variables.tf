@@ -1,3 +1,4 @@
+variable "app_env" {}
 variable "region" {}
 variable "dev_vpc_cidr" {}
 variable "public_subnets" {}
