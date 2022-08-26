@@ -2,7 +2,6 @@ name: CI Testing and building test image
 
 on:
   workflow_dispatch:
-    branches: ["dev-branch"]
   pull_request:
     branches: ["feature-branch"]
 
