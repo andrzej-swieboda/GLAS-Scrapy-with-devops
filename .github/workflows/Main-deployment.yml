@@ -1,17 +1,17 @@
-name: Post Feature merge tests & deploy
+name: Main deployment
 
 on:
   workflow_dispatch:
   push:
-    branches: [feature-branch]
+    branches: [main]
 
 jobs:
   
   Test_terraform:
-    name: Test terraform in staging
+    name: Test terraform in production
 
     runs-on: ubuntu-latest
-    environment: Staging
+    environment: Production
 
     steps:
     - uses: actions/checkout@v1
@@ -25,7 +25,7 @@ jobs:
 
     - name: Replace variables for staging
       working-directory: ./Terraform_INIT
-      run: sed -i 's/app_env = "test"/app_env = "staging"/g' terraform.tfvars
+      run: sed -i 's/app_env = "test"/app_env = "production"/g' terraform.tfvars
 
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
@@ -55,7 +55,7 @@ jobs:
     - name: Test terraform configuration
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
+        terraform init -reconfigure -upgrade -backend-config=production-backend.conf
         terraform fmt
         terraform fmt -check
         terraform validate
@@ -63,7 +63,7 @@ jobs:
       continue-on-error: false #
 
   Apply_terraform:
-    name: Deploy staging
+    name: Deploy Production
     needs: Test_terraform
 
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
 
     - name: Replace variables for staging
       working-directory: ./Terraform_INIT
-      run: sed -i 's/app_env = "test"/app_env = "staging"/g' terraform.tfvars
+      run: sed -i 's/app_env = "test"/app_env = "production"/g' terraform.tfvars
 
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
@@ -129,7 +129,7 @@ jobs:
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
 
   Build_and_push_image:
-    name: Build and push Docker image
+    name: Build and push Docker image to production
     needs: Apply_terraform
     environment: Staging
 
@@ -153,13 +153,9 @@ jobs:
       working-directory: ./Docker
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
-        ECR_REPOSITORY: scrapy-dev-ecr
-        IMAGE_TAG: DEV_SCRAPY_IMAGE
+        ECR_REPOSITORY: scrapy-production-ecr
+        IMAGE_TAG: SCRAPY_IMAGE
 
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-
-
-
