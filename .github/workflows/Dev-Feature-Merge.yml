@@ -1,16 +1,37 @@
-name: CI testing on Feature-Branch update
+name: Post Merge Dev -> Feature tests
 
 on:
-  pull_request:
-    branches:
-    - feature-branch 
+  push:
+    branches: ["feature-branch"] 
 
 jobs:
+
+  Unit_tests:
+    name: 1- Unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Perform unit tests on code
+      run: echo ------------------PLEASE PUT TESTS HERE------------------------------
+
+  Build:
+    name: 2- Test build docker image
+    needs: Unit_tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Test - Build the Docker image
+      working-directory: ./Docker
+      run: docker build .
+  
   Test_terraform:
     name: Test terraform
 
     runs-on: ubuntu-latest
-    environment: Testing
+    environment: Staging
 
     steps:
     - uses: actions/checkout@v1
@@ -55,7 +76,7 @@ jobs:
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
       continue-on-error: true # infra does not exist
 
-    - name: Terraform Test
+    - name: Terraform apply
       working-directory: ./Terraform_INIT
       run: |
         terraform init -reconfigure -upgrade -backend-config=test-backend.conf
