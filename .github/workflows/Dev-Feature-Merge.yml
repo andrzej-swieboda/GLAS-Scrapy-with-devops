@@ -2,7 +2,7 @@ name: Post Merge Dev -> Feature tests
 
 on:
   pull_request:
-    types: [closed]
+    types: ["closed"]
 
 jobs:
 
