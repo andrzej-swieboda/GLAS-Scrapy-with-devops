@@ -1,6 +1,7 @@
 name: Post Merge Dev -> Feature tests
 
 on:
+  workflow_dispatch:
   push:
     branches: [feature-branch]
 
