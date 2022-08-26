@@ -1,8 +1,8 @@
 name: Post Merge Dev -> Feature tests
 
 on:
-  push:
-    branches: ["feature-branch"] 
+  pull_request:
+    types: [closed]
 
 jobs:
 
