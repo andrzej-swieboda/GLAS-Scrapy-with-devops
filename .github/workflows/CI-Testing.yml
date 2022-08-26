@@ -72,7 +72,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
 
-    - name: Terraform apply
+    - name: Test terraform configuration
       working-directory: ./Terraform_INIT
       run: |
         terraform init -reconfigure -upgrade -backend-config=test-backend.conf
