@@ -1,11 +1,10 @@
 name: CI testing on Feature-Branch update
 
 on:
-  #pull_request:
-    #branches:
-   #- feature-branch
   workflow_dispatch:
-    
+    #pull_request:
+    #branches:
+   #- feature-branch 
 
 jobs:
   Test_terraform:
