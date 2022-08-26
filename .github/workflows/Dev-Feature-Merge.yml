@@ -24,7 +24,7 @@ jobs:
 
     - name: Replace variables for staging
       working-directory: ./Terraform_INIT
-      run: sed -i 's/app_env = "test"/app_env = "staging"/g'
+      run: sed -i 's/app_env = "test"/app_env = "staging"/g' terraform.tfvars
 
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
