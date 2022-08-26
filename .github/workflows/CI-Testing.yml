@@ -32,11 +32,11 @@ jobs:
       run: docker build .
   
   Test_terraform:
-    name: Test terraform
+    name: 3- Test terraform
     needs: Unit_tests
     
     runs-on: ubuntu-latest
-    environment: Testing
+    environment: Testing                ###################################
 
     steps:
     - uses: actions/checkout@v1
