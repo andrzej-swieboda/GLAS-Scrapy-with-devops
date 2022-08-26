@@ -1,9 +1,8 @@
 name: Post Merge Dev -> Feature tests
 
 on:
-  pull_request:
-    branches: ["feature-branch"]
-    types: ["closed"]
+  push:
+    branches: [feature-branch]
 
 jobs:
   
@@ -60,16 +59,6 @@ jobs:
         terraform fmt -check
         terraform validate
         terraform plan
-
-    - name: Remove AWS Plan after test
-      id: remove_from
-      run: |
-        aws s3 rm s3://${{ secrets.MAIN_BUCKET }}/ --recursive
-        aws s3 rb s3://${{ secrets.MAIN_BUCKET }} --force
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.REGION }}
       continue-on-error: false # infra does not exist
 
 
