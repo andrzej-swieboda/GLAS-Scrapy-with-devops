@@ -61,7 +61,7 @@ jobs:
     - name: Terraform apply
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade
+        terraform init -reconfigure -upgrade -backend-config=test-backend.conf
         terraform fmt
         terraform fmt -check
         terraform validate
