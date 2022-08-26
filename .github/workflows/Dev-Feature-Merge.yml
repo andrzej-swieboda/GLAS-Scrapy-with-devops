@@ -2,7 +2,7 @@ name: Post Merge Dev -> Feature tests
 
 on:
   pull_request:
-    types: [closed]
+    types: ["closed"]
 
 jobs:
 
@@ -31,7 +31,7 @@ jobs:
     name: Test terraform
 
     runs-on: ubuntu-latest
-    environment: Staging
+    environment: Testing
 
     steps:
     - uses: actions/checkout@v1
