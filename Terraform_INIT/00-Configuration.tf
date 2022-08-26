@@ -1,9 +1,6 @@
 terraform {
 
   backend "s3" {
-    bucket = "scrapy-dev-backend"
-    key    = "production/terraform.tfstate"
-    region = "us-east-1"
   }
 
   required_providers {

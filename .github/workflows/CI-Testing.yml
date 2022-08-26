@@ -1,8 +1,12 @@
-name: Post Merge Dev -> Feature tests
+name: CI Testing and building test image
 
 on:
+  push:
+    branches:
+    - dev-branch
   pull_request:
-    types: [closed]
+    branches:
+    - feature-branch
 
 jobs:
 
@@ -29,9 +33,10 @@ jobs:
   
   Test_terraform:
     name: Test terraform
-
+    needs: Unit_tests
+    
     runs-on: ubuntu-latest
-    environment: Staging
+    environment: Testing
 
     steps:
     - uses: actions/checkout@v1
