@@ -1,12 +1,9 @@
 name: CI testing on Feature-Branch update
 
 on:
-  push:
+  pull_request:
     branches:
-    - dev-branch
-    #pull_request:
-    #branches:
-   #- feature-branch 
+    - feature-branch 
 
 jobs:
   Test_terraform:
