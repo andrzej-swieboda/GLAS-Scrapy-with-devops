@@ -1,9 +1,9 @@
-resource "aws_s3_bucket" "dev-scrapy-output" {
-  bucket = "dev-scrapy-output"
+resource "aws_s3_bucket" "scrapy-output" {
+  bucket = "${var.app_env}-scrapy-output"
 }
 
-resource "aws_s3_bucket_versioning" "dev-scrapy-output-verioning" {
-  bucket = aws_s3_bucket.dev-scrapy-output.id
+resource "aws_s3_bucket_versioning" "scrapy-output-versioning" {
+  bucket = aws_s3_bucket.scrapy-output.id
   versioning_configuration {
     status = "Enabled"
   }
