@@ -1,7 +1,9 @@
 name: CI testing on Feature-Branch update
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+    - dev-branch
     #pull_request:
     #branches:
    #- feature-branch 
