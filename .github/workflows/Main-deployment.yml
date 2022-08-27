@@ -67,7 +67,7 @@ jobs:
     needs: Test_terraform
 
     runs-on: ubuntu-latest
-    environment: Staging
+    environment: Production
 
     steps:
     - uses: actions/checkout@v1
@@ -111,7 +111,7 @@ jobs:
     - name: Test terraform configuration
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
+        terraform init -reconfigure -upgrade -backend-config=production-backend.conf
         terraform fmt
         terraform fmt -check
         terraform validate
@@ -131,7 +131,7 @@ jobs:
   Build_and_push_image:
     name: Build and push Docker image to production
     needs: Apply_terraform
-    environment: Staging
+    environment: Production
 
     runs-on: ubuntu-latest
 
