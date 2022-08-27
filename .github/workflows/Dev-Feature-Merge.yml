@@ -108,7 +108,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
 
-    - name: Test terraform configuration
+    - name: Apply Terraform Configuration
       working-directory: ./Terraform_INIT
       run: |
         terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
@@ -153,8 +153,8 @@ jobs:
       working-directory: ./Docker
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
-        ECR_REPOSITORY: scrapy-dev-ecr
-        IMAGE_TAG: DEV_SCRAPY_IMAGE
+        ECR_REPOSITORY: scrapy-staging-ecr
+        IMAGE_TAG: SCRAPY_IMAGE
 
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
