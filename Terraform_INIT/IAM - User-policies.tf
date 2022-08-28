@@ -9,7 +9,7 @@ resource "aws_iam_policy" "s3_policy" {
               "s3:*",
             ]
             Effect   = "Allow"
-            Resource = "*"
+            Resource = "arn:aws:s3:::${var.app_env}-scrapy-output/*"
         },
         ]
     })

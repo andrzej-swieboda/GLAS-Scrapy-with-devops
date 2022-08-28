@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "main" {
 
 
 
-resource "aws_ecs_task_definition" "deploy-dev" {
+resource "aws_ecs_task_definition" "deploy" {
   family                   = "Deploy"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]

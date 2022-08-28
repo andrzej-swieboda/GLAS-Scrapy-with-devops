@@ -1,5 +1,5 @@
-resource "aws_security_group" "dev_ecs_sg" {
-    name = "ecs-sg"
+resource "aws_security_group" "ecs_sg" {
+    name = "${var.app_env}-ecs-sg"
     vpc_id      = aws_vpc.vpc.id
 
     ingress {
