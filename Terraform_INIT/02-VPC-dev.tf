@@ -39,7 +39,7 @@ resource "aws_route_table" "PublicRT" {    # Creating RT for Public Subnet
   vpc_id =  aws_vpc.vpc.id
     route {
       cidr_block = "0.0.0.0/0"               # Traffic from Public Subnet reaches Internet via Internet Gateway
-      gateway_id = aws_internet_gateway.igw-dev.id
+      gateway_id = aws_internet_gateway.igw.id
     }
 }
 
