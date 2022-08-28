@@ -1,4 +1,4 @@
-name: Post Feature merge tests & deploy
+name: 01- Feature Deploy
 
 on:
   workflow_dispatch:
