@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "main" {
 
 
 
-resource "aws_ecs_task_definition" "deploy-dev" {
+resource "aws_ecs_task_definition" "deploy" {
   family                   = "Deploy"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "deploy-dev" {
   [
     {
       "name"        :"${var.app_name}-container-${var.app_env}",
-      "image"       : "${aws_ecr_repository.dev-repository.repository_url}:${var.dev_image_tag}",
+      "image"       : "${aws_ecr_repository.repository.repository_url}:${var.dev_image_tag}",
       "command": [
           "/projects/cfg/Output-setup.sh"
         ],
@@ -145,10 +145,10 @@ resource "aws_cloudwatch_event_target" "ecs_scheduled_task" {
     launch_type         = "FARGATE"
     platform_version    = "LATEST"
     task_count          = 1
-    task_definition_arn = aws_ecs_task_definition.deploy-dev.arn                     ###############################################################
+    task_definition_arn = aws_ecs_task_definition.deploy.arn                     ###############################################################
     network_configuration {
       subnets = [aws_subnet.publicsubnets.id, aws_subnet.privatesubnets.id]
-      security_groups = [ aws_security_group.dev_ecs_sg.id ]
+      security_groups = [ aws_security_group.ecs_sg.id ]
       assign_public_ip = true
     }
 

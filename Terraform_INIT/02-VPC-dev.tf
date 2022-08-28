@@ -13,7 +13,7 @@ resource "aws_vpc" "vpc" {
 }
 
 #Creating Internet gateway and attaching to VPC
-resource "aws_internet_gateway" "igw-dev" {
+resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
 
@@ -39,7 +39,7 @@ resource "aws_route_table" "PublicRT" {    # Creating RT for Public Subnet
   vpc_id =  aws_vpc.vpc.id
     route {
       cidr_block = "0.0.0.0/0"               # Traffic from Public Subnet reaches Internet via Internet Gateway
-      gateway_id = aws_internet_gateway.igw-dev.id
+      gateway_id = aws_internet_gateway.igw.id
     }
 }
 
