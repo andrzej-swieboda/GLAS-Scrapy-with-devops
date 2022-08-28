@@ -76,7 +76,7 @@ data "aws_iam_policy_document" "cloudwatch" {
     statement {
     effect    = "Allow"
     actions   = ["ecs:RunTask"]
-    resources = [aws_ecs_task_definition.deploy-dev.arn]
+    resources = [aws_ecs_task_definition.deploy.arn]
   }
   statement {
     effect  = "Allow"
