@@ -117,4 +117,3 @@ jobs:
         terraform validate
         terraform plan
         terraform destroy -auto-approve
-      continue-on-error: false # infra does not exist
