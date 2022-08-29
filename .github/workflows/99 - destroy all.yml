@@ -109,6 +109,7 @@ jobs:
     - name: Apply Terraform Configuration
       working-directory: ./Terraform_INIT
       run: |
+        aws ecr delete-repository --repository-name scrapy-staging-ecr --force
         terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
         terraform fmt
         terraform fmt -check
