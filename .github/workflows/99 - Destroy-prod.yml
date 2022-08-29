@@ -101,6 +101,7 @@ jobs:
         aws s3api put-object --bucket ${{ secrets.MAIN_BUCKET }} --key production --acl private
         aws ecr delete-repository --repository-name scrapy-production-ecr --force
         aws s3 rm s3://production-scrapy-output/ --recursive
+        aws s3 rb s3://production-scrapy-output --force
       
 
       env:
