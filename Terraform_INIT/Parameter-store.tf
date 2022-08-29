@@ -16,5 +16,5 @@ resource "aws_ssm_parameter" "OUTPUT_BUCKET_NAME" {
   name        = "OUTPUT_BUCKET_NAME"
   description = "The parameter description"
   type        = "SecureString"
-  value       = "dev-scrapy-output"
+  value       = "${var.app_env}-scrapy-output"
 }
