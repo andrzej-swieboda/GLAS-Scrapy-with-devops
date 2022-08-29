@@ -100,8 +100,8 @@ jobs:
         aws s3api create-bucket --bucket ${{ secrets.MAIN_BUCKET }} --region us-east-1
         aws s3api put-object --bucket ${{ secrets.MAIN_BUCKET }} --key production --acl private
         aws ecr delete-repository --repository-name scrapy-production-ecr --force
-        aws s3 rm s3://production-scrapy-output --recursive --force
-        continue-on-error: true  # infra does not exist
+        aws s3 rm s3://production-scrapy-output --recursive
+      continue-on-error: true  # infra does not exist
       
 
       env:
