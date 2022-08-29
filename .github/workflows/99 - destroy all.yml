@@ -1,17 +1,15 @@
-name: 03 - Main deployment
+name: 99 - Destroy all
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 jobs:
   
   Test_terraform:
-    name: Test terraform in production
+    name: Test terraform in staging
 
     runs-on: ubuntu-latest
-    environment: Production
+    environment: Staging
 
     steps:
     - uses: actions/checkout@v1
@@ -25,7 +23,7 @@ jobs:
 
     - name: Replace variables for staging
       working-directory: ./Terraform_INIT
-      run: sed -i 's/app_env = "test"/app_env = "production"/g' terraform.tfvars
+      run: sed -i 's/app_env = "test"/app_env = "staging"/g' terraform.tfvars
 
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
@@ -55,19 +53,19 @@ jobs:
     - name: Test terraform configuration
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade -backend-config=production-backend.conf
+        terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
         terraform fmt
         terraform fmt -check
         terraform validate
         terraform plan
       continue-on-error: false #
 
-  Apply_terraform:
-    name: Deploy Production
+  Destroy_terraform:
+    name: Destroy staging
     needs: Test_terraform
 
     runs-on: ubuntu-latest
-    environment: Production
+    environment: Staging
 
     steps:
     - uses: actions/checkout@v1
@@ -81,7 +79,7 @@ jobs:
 
     - name: Replace variables for staging
       working-directory: ./Terraform_INIT
-      run: sed -i 's/app_env = "test"/app_env = "production"/g' terraform.tfvars
+      run: sed -i 's/app_env = "test"/app_env = "staging"/g' terraform.tfvars
 
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
@@ -108,54 +106,14 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
 
-    - name: Test terraform configuration
+    - name: Apply Terraform Configuration
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade -backend-config=production-backend.conf
+        terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
         terraform fmt
         terraform fmt -check
         terraform validate
         terraform plan
         terraform apply -auto-approve
+        terraform destroy
       continue-on-error: false # infra does not exist
-
-    - name: AWS Plan Copy
-      if: github.event_name == 'push' && steps.apply.outcome == 'success'
-      run: aws s3 cp terraform.tfstate s3://${{ secrets.MAIN_BUCKET }}/production/terraform.tfstate
-      id: copy
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.REGION }}
-
-  Build_and_push_image:
-    name: Build and push Docker image to production
-    needs: Test_terraform
-    environment: Production
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: 'us-east-1'
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag and push image to Amazon ECR
-      working-directory: ./Docker
-      env:
-        ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
-        ECR_REPOSITORY: scrapy-production-ecr
-        IMAGE_TAG: SCRAPY_IMAGE
-
-      run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
