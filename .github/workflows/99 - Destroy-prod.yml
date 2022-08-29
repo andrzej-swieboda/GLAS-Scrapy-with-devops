@@ -1,4 +1,4 @@
-name: 99 - Destroy Staging
+name: 99 - Destroy Production
 
 on:
   workflow_dispatch:
@@ -6,10 +6,10 @@ on:
 jobs:
   
   Test_terraform:
-    name: Test terraform in staging
+    name: Test terraform in Prod
 
     runs-on: ubuntu-latest
-    environment: Staging
+    environment: Production
 
     steps:
     - uses: actions/checkout@v1
@@ -23,7 +23,7 @@ jobs:
 
     - name: Replace variables for staging
       working-directory: ./Terraform_INIT
-      run: sed -i 's/app_env = "test"/app_env = "staging"/g' terraform.tfvars
+      run: sed -i 's/app_env = "test"/app_env = "production"/g' terraform.tfvars
 
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
@@ -53,7 +53,7 @@ jobs:
     - name: Test terraform configuration
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
+        terraform init -reconfigure -upgrade -backend-config=production-backend.conf
         terraform fmt
         terraform fmt -check
         terraform validate
@@ -61,11 +61,11 @@ jobs:
       continue-on-error: false #
 
   Destroy_terraform:
-    name: Destroy staging
+    name: Destroy Production
     needs: Test_terraform
 
     runs-on: ubuntu-latest
-    environment: Staging
+    environment: Production
 
     steps:
     - uses: actions/checkout@v1
@@ -77,9 +77,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: 'us-east-1'
 
-    - name: Replace variables for staging
+    - name: Replace variables for production
       working-directory: ./Terraform_INIT
-      run: sed -i 's/app_env = "test"/app_env = "staging"/g' terraform.tfvars
+      run: sed -i 's/app_env = "test"/app_env = "production"/g' terraform.tfvars
 
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v2.0.0
@@ -95,12 +95,12 @@ jobs:
         export AWS_REGION="us-east-1"
 
 
-    - name: Make bucket for terraform state file
+    - name: Make bucket for terraform state file and delete others
       run: |
         aws s3api create-bucket --bucket ${{ secrets.MAIN_BUCKET }} --region us-east-1
         aws s3api put-object --bucket ${{ secrets.MAIN_BUCKET }} --key production --acl private
-        aws ecr delete-repository --repository-name scrapy-staging-ecr --force
-        aws s3 rm s3://staging-scrapy-output/ --recursive
+        aws ecr delete-repository --repository-name scrapy-production-ecr --force
+        aws s3 rm s3://production-scrapy-output/ --recursive
       
 
       env:
@@ -111,7 +111,7 @@ jobs:
     - name: Apply and Destroy Terraform Configuration
       working-directory: ./Terraform_INIT
       run: |
-        terraform init -reconfigure -upgrade -backend-config=staging-backend.conf
+        terraform init -reconfigure -upgrade -backend-config=production-backend.conf
         terraform fmt
         terraform fmt -check
         terraform validate
