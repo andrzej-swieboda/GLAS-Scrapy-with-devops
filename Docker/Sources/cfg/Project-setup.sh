@@ -17,6 +17,10 @@ mkdir output
 scrapy startproject $PROJECT_NAME ../projects
 cp ./projects/$SPIDER_FILE ./projects/$PROJECT_NAME/spiders
 
+cd ./projects/$PROJECT_NAME/
+echo "FEED_EXPORT_ENCODING = 'utf-8'" >> settings.py
+
+
 cd ./projects/$PROJECT_NAME/spiders/
 
 echo "Script Completed with project name $PROJECT_NAME"
