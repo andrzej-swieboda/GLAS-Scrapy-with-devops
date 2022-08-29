@@ -100,6 +100,7 @@ jobs:
         aws s3api create-bucket --bucket ${{ secrets.MAIN_BUCKET }} --region us-east-1
         aws s3api put-object --bucket ${{ secrets.MAIN_BUCKET }} --key production --acl private
         aws ecr delete-repository --repository-name scrapy-staging-ecr --force
+        aws s3 rm s3://staging-scrapy-output/ --recursive
       
 
       env:
