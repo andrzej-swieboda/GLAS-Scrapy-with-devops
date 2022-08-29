@@ -2,8 +2,8 @@ name: 03 - Main deployment
 
 on:
   workflow_dispatch:
-  #push:
-  #  branches: [main]
+  push:
+    branches: [main]
 
 jobs:
   
