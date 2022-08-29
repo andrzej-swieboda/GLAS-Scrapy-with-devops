@@ -2,8 +2,8 @@ name: 01- Feature Deploy
 
 on:
   workflow_dispatch:
-  #push:
-  # branches: [feature-branch]
+  push:
+    branches: [feature-branch]
 
 jobs:
   

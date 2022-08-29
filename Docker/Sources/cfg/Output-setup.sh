@@ -8,9 +8,9 @@ poject_name=MOTI_PROJECT
 
 cd /projects/MOTI_PROJECT/spiders/
 
-scrapy crawl motywatorka -o motywatorka-$current_time.json
+scrapy crawl motywatorka -o motywatorka-$current_time.csv
 
-cp /projects/MOTI_PROJECT/spiders/*.json /outputs
+cp /projects/MOTI_PROJECT/spiders/*.csv /outputs
 
 aws configure set aws_access_key_id $AKID
 aws configure set aws_secret_access_key $SAK
